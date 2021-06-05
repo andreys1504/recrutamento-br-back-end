@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  banco-dados:
+    image: mongo
+    container_name: recrutamento-br-banco-dados
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=recrutamento-br
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=Passw0rd
+    ports:
+      - 27036:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - c:\dev\mongo-db\Docker\RecrutamentoBr\db:/data/db
+    networks:
+      - back-end-recrutamento-br-network
+        
+networks: 
+  back-end-recrutamento-br-network:
+    driver: bridge

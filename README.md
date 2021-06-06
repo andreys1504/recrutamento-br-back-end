@@ -19,6 +19,9 @@ via terminal: docker-compose up -d
 - .env
 utilizar .env.EXAMPLE para a criação das configurações da Api.
 
+### Requisições Api
+
+'Recrutamento-BR.postman_collection.json' contém as configurações para realização de requisições via Postman.
 
 ### Regras de Negócio
 - Possibilitar que Recrutadores cadastrem vagas e Candidatos se candidatem as mesmas.

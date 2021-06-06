@@ -1,10 +1,8 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
 import { schemaOptions } from 'src/data/data-source/mongoose/schema-options';
-import { EntityToDocument } from 'src/data/data-source/mongoose/entity-to-document';
-import { Candidato } from '../../../../../domain/conta-usuario/entities/candidato';
 import { Entities } from '../../entities';
 
-const candidatoSchema = new Schema({
+export const candidatoSchema = new Schema({
     nome: {
         type: String,
         trim: true,
@@ -22,8 +20,3 @@ const candidatoSchema = new Schema({
     ...schemaOptions,
     collection: 'candidatos'
 });
-
-interface Candidato_Document extends EntityToDocument<Candidato> {
-}
-
-export const CandidatoModel = model<Candidato_Document>(Entities.Candidato, candidatoSchema);

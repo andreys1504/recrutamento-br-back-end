@@ -25,6 +25,9 @@ const corsOptions = {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  await DatabaseService.connectAsync();
+  
   app.enableShutdownHooks();
 
   const document = SwaggerModule.createDocument(app, configsSwagger);
@@ -39,9 +42,6 @@ async function bootstrap() {
   }
 
   app.useGlobalInterceptors(new ResponseInterceptor());
-
-  var databaseService = new DatabaseService();
-  await databaseService.connectAsync();
 
   await app.listen(process.env.PORT_API);
 }

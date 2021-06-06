@@ -1,30 +1,44 @@
 import { AppService } from 'src/core/domain/application-services/service/app-service';
 import { ResponseServiceModel } from 'src/core/domain/application-services/response/response-service';
-import { VagaModel } from 'src/data/data-source/mongoose/schemas/painel-vagas/vaga.schema';
 import { CadastroVagaDataResponse } from './cadastro-vaga.data-response';
 import { CadastroVagaRequest } from './cadastro-vaga.request';
+import { VagaRepository } from 'src/data/repositories/painel-vagas/vaga-repository';
+import { Injectable } from '@nestjs/common';
+import { Entities } from 'src/data/data-source/mongoose/entities';
 
+@Injectable()
 export class CadastroVagaAppService extends AppService<CadastroVagaDataResponse> {
+  constructor(private readonly vagaRepository: VagaRepository) {
+    super();
+  }
+
   async handleAsync(
     request: CadastroVagaRequest,
   ): Promise<ResponseServiceModel<CadastroVagaDataResponse>> {
-    if (request.validate() === false)
+    if (request.validate() === false) {
       return this.returnNotifications(request.notifications);
+    }
 
-    const vagaPorTitulo = await VagaModel.findOne(
-      {
-        titulo: request.titulo
-      },
-      '_id',
-    )
-    .populate({ path: 'recrutador', match: { _id: request.idRecrutador }, select: '_id' })
-    .exec();
+    const vagaPorTitulo = await this.vagaRepository.model
+      .findOne(
+        {
+          titulo: request.titulo,
+        },
+        'titulo',
+      )
+      .populate({
+        path: Entities.Recrutador,
+        select: '_id',
+        match: { _id: request.idRecrutador },
+        model: Entities.Vaga,
+      })
+      .exec();
 
     if (vagaPorTitulo) {
       return this.returnNotification('titulo', 'Vaga existente no sistema');
     }
 
-    const vagaModel = new VagaModel({
+    const vagaModel = new this.vagaRepository.model({
       titulo: request.titulo,
       descricao: request.descricao,
       tags: request.tags,
@@ -37,7 +51,7 @@ export class CadastroVagaAppService extends AppService<CadastroVagaDataResponse>
       titulo: vagaModel.titulo,
       descricao: vagaModel.descricao,
       tags: vagaModel.tags,
-      idRecrutador: vagaModel.recrutador.toString()
+      idRecrutador: vagaModel.recrutador.toString(),
     });
   }
 }

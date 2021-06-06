@@ -1,10 +1,10 @@
 import { Body, Controller, Post, Put, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RolesApi } from 'src/core/authorizations/roles-api';
-import { CadastroVagaAppService } from 'src/domain/painel-vagas/application-services/cadastro-vaga/cadastro-vaga.app-service';
-import { CadastroVagaRequest } from 'src/domain/painel-vagas/application-services/cadastro-vaga/cadastro-vaga.request';
-import { EdicaoVagaAppService } from 'src/domain/painel-vagas/application-services/edicao-vaga/edicao-vaga.app-service';
-import { EdicaoVagaRequest } from 'src/domain/painel-vagas/application-services/edicao-vaga/edicao-vaga.request';
+import { CadastroVagaAppService } from 'src/domain/painel-vagas/application-services/vaga/cadastro-vaga/cadastro-vaga.app-service';
+import { CadastroVagaRequest } from 'src/domain/painel-vagas/application-services/vaga/cadastro-vaga/cadastro-vaga.request';
+import { EdicaoVagaAppService } from 'src/domain/painel-vagas/application-services/vaga/edicao-vaga/edicao-vaga.app-service';
+import { EdicaoVagaRequest } from 'src/domain/painel-vagas/application-services/vaga/edicao-vaga/edicao-vaga.request';
 import { Roles } from '../configurations/security-routes/roles.decorator';
 import { TokenPayload } from '../configurations/security-routes/token.payload';
 import { CadastrarVagaRequestApi } from '../models/request-api/vaga/cadastro/cadastrar-vaga.request-api';

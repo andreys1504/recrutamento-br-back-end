@@ -1,10 +1,8 @@
-import { model, Schema } from "mongoose";
-import { Vaga } from "src/domain/painel-vagas/entities/vaga";
+import { Schema } from "mongoose";
 import { Entities } from "../../entities";
-import { EntityToDocument } from "../../entity-to-document";
 import { schemaOptions } from "../../schema-options";
 
-const candidaturaVagaSchema = new Schema({
+export const candidaturaVagaSchema = new Schema({
     vaga: {
         type: Schema.Types.ObjectId,
         ref: Entities.Vaga
@@ -22,8 +20,3 @@ const candidaturaVagaSchema = new Schema({
     ...schemaOptions,
     collection: 'candidaturasVagas'
 });
-
-interface CandidaturaVaga_Document extends EntityToDocument<Vaga> {
-}
-
-export const CandidaturaVagaModel = model<CandidaturaVaga_Document>(Entities.CandidaturaVaga, candidaturaVagaSchema);

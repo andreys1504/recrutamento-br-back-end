@@ -1,10 +1,8 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
 import { schemaOptions } from 'src/data/data-source/mongoose/schema-options';
-import { EntityToDocument } from 'src/data/data-source/mongoose/entity-to-document';
-import { Recrutador } from '../../../../../domain/conta-usuario/entities/recrutador';
 import { Entities } from '../../entities';
 
-const recrutadorSchema = new Schema({
+export const recrutadorSchema = new Schema({
     nome: {
         type: String,
         trim: true,
@@ -23,8 +21,3 @@ const recrutadorSchema = new Schema({
     ...schemaOptions,
     collection: 'recrutadores'
 });
-
-interface Recrutador_Document extends EntityToDocument<Recrutador> {
-}
-
-export const RecrutadorModel = model<Recrutador_Document>(Entities.Recrutador, recrutadorSchema);

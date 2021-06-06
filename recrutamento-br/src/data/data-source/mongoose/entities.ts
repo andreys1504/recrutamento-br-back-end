@@ -1,10 +1,10 @@
 export enum Entities {
     //conta-usuario
-    Candidato = 'Candidato',
-    Recrutador = 'Recrutador',
-    Usuario = 'Usuario',
+    Candidato = 'candidato',
+    Recrutador = 'recrutador',
+    Usuario = 'usuario',
 
     //painel-vagas
-    CandidaturaVaga = 'CandidaturaVaga',
-    Vaga = 'Vaga',
+    CandidaturaVaga = 'candidaturaVaga',
+    Vaga = 'vaga',
 }

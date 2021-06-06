@@ -1,6 +1,6 @@
-import { Entity } from 'src/core/domain/entities/entity-base/entity';
+import { IAggregateRoot } from 'src/core/domain/entities/aggregate-root';
 
-export interface Usuario extends Entity {
+export interface Usuario extends IAggregateRoot {
   email: string;
   senha: string;
   perfil: string;

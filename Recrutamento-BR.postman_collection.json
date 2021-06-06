@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "03da50fa-8e32-410f-807f-d327b4717f05",
+		"name": "Recrutamento-BR",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "conta-usuario",
+			"item": [
+				{
+					"name": "conta-usuario/cadastrar-recrutador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"andreys1504@gmail.com\",\r\n    \"senha\": \"12345678\",\r\n    \"nome\": \"Andrey\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3024/conta-usuario/cadastrar-recrutador",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3024",
+							"path": [
+								"conta-usuario",
+								"cadastrar-recrutador"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "conta-usuario/cadastrar-candidato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dev.br.bsb@gmail.com\",\r\n    \"senha\": \"123456789\",\r\n    \"nome\": \"Andrey\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3024/conta-usuario/cadastrar-candidato",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3024",
+							"path": [
+								"conta-usuario",
+								"cadastrar-candidato"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "conta-usuario/autenticar (recrutador)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"andreys1504@gmail.com\",\r\n    \"senha\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3024/conta-usuario/autenticar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3024",
+							"path": [
+								"conta-usuario",
+								"autenticar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "conta-usuario/autenticar (candidato)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dev.br.bsb@gmail.com\",\r\n    \"senha\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3024/conta-usuario/autenticar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3024",
+							"path": [
+								"conta-usuario",
+								"autenticar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "vagas",
+			"item": [
+				{
+					"name": "vagas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOiI2MGJjZGJhNTFiZjBjZjhhZmNkMTNhMDQiLCJpZENhbmRpZGF0b1JlY3J1dGFkb3IiOiI2MGJjZGJhNTFiZjBjZjhhZmNkMTNhMDUiLCJlbWFpbCI6ImFuZHJleXMxNTA0QGdtYWlsLmNvbSIsInBlcm1pc3NvZXMiOlsicmVjcnV0YWRvciJdLCJpYXQiOjE2MjI5ODk3NjIsImV4cCI6MTYyMzA3NjE2Mn0.iSyaynblNjpcVTII3jwXJrLQDW7pE4TwKu0yI1uN_Ok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tituloVaga\": \"Desenvolvedor ASP\",\r\n    \"descricao\": \"20 anos de experiência\",\r\n    \"tags\": [\"asp\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3024/vagas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3024",
+							"path": [
+								"vagas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "vagas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOiI2MGJhZWIxZDZiMGIyMDVlNjhmMjBjNGEiLCJpZENhbmRpZGF0b1JlY3J1dGFkb3IiOiI2MGJhZWIxZDZiMGIyMDVlNjhmMjBjNGIiLCJlbWFpbCI6ImFuZHJleXMxNTA0QGdtYWlsLmNvbSIsInBlcm1pc3NvZXMiOlsicmVjcnV0YWRvciJdLCJpYXQiOjE2MjI4NjI2ODMsImV4cCI6MTYyMjk0OTA4M30.jPh0ClMW9P87bzoZHl4NTjUk2dlak_pERjFIFnoSAJQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idVaga\": \"60bb7eba9ba2a150c88761c9\",\r\n    \"tituloVaga\": \"Desenvolvedor JS\",\r\n    \"descricao\": \"5 anos de experiência utilizando JS\",\r\n    \"tags\": [\"aspNet\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3024/vagas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3024",
+							"path": [
+								"vagas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

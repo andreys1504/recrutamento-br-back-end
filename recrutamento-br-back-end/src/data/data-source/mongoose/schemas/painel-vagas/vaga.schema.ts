@@ -1,6 +1,10 @@
 import { Schema } from "mongoose";
-import { Entities } from "../../entities";
+import { Vaga } from "../../../../../domain/painel-vagas/entities/vaga";
+import { Entities } from "../../../../../core/data/entities";
+import { EntityToDocument } from "../../entity-to-document";
 import { schemaOptions } from "../../schema-options";
+
+export type VagaDocument = EntityToDocument<Vaga>;
 
 export const vagaSchema = new Schema({
     titulo: {
@@ -15,6 +19,10 @@ export const vagaSchema = new Schema({
         type: String,
         trim: true,
     }],
+    recrutadorId: {
+        type: String,
+        trim: true,
+    },
     recrutador: {
         type: Schema.Types.ObjectId,
         ref: Entities.Recrutador

@@ -1,6 +1,10 @@
 import { Schema } from 'mongoose';
-import { schemaOptions } from 'src/data/data-source/mongoose/schema-options';
-import { Entities } from '../../entities';
+import { Candidato } from '../../../../../domain/conta-usuario/entities/candidato';
+import { schemaOptions } from '../../../../../data/data-source/mongoose/schema-options';
+import { Entities } from '../../../../../core/data/entities';
+import { EntityToDocument } from '../../entity-to-document';
+
+export type CandidatoDocument = EntityToDocument<Candidato>;
 
 export const candidatoSchema = new Schema({
     nome: {
@@ -9,6 +13,10 @@ export const candidatoSchema = new Schema({
     },
     ativo: {
         type: Boolean,
+        trim: true,
+    },
+    usuarioId: {
+        type: String,
         trim: true,
     },
     usuario: {

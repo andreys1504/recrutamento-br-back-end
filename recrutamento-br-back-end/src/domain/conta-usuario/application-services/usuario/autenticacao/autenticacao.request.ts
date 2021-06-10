@@ -1,5 +1,5 @@
-import { RequestService } from 'src/core/domain/application-services/request/request-service';
-import { Flunt } from 'src/core/validations/flunt';
+import { RequestService } from '../../../../../core/domain/application-services/request/request-service';
+import { Flunt } from '../../../../../core/validations/flunt';
 
 export class AutenticacaoRequest extends RequestService {
   constructor(public email: string, public senha: string) {

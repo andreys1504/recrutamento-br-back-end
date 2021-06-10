@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { RolesApi } from 'src/core/authorizations/roles-api';
-import { AppService } from 'src/core/domain/application-services/service/app-service';
-import { ResponseServiceModel } from 'src/core/domain/application-services/response/response-service';
-import { CryptographyHelpers } from 'src/core/helpers/cryptography.helpers';
+import { RolesApi } from '../../../../../core/authorizations/roles-api';
+import { AppService } from '../../../../../core/domain/application-services/service/app-service';
+import { ResponseServiceModel } from '../../../../../core/domain/application-services/response/response-service';
+import { CryptographyHelpers } from '../../../../../core/helpers/cryptography.helpers';
 import { AutenticacaoDataResponse } from './autenticacao.data-response';
 import { AutenticacaoRequest } from './autenticacao.request';
-import { CandidatoRepository } from 'src/data/repositories/conta-usuario/candidato.repository';
-import { UsuarioRepository } from 'src/data/repositories/conta-usuario/usuario.repository';
-import { RecrutadorRepository } from 'src/data/repositories/conta-usuario/recrutador.repository';
+import { CandidatoRepository } from '../../../../../data/repositories/conta-usuario/candidato.repository';
+import { UsuarioRepository } from '../../../../../data/repositories/conta-usuario/usuario.repository';
+import { RecrutadorRepository } from '../../../../../data/repositories/conta-usuario/recrutador.repository';
 
 @Injectable()
 export class AutenticacaoAppService extends AppService<AutenticacaoDataResponse> {
   constructor(
     private readonly candidatoRepository: CandidatoRepository,
     private readonly usuarioRepository: UsuarioRepository,
-    private readonly recrutadorRepository: RecrutadorRepository
+    private readonly recrutadorRepository: RecrutadorRepository,
   ) {
     super();
   }
@@ -28,33 +28,33 @@ export class AutenticacaoAppService extends AppService<AutenticacaoDataResponse>
 
     const senhaEncriptada = CryptographyHelpers.encryptPassword(request.senha);
 
-    const usuario = await this.usuarioRepository.model
-      .findOne({ 
-        email: request.email, 
-        senha: senhaEncriptada 
-      }, '_id email perfil')
-      .exec();
+    const usuario = await this.usuarioRepository.buscar(
+      {
+        email: request.email,
+        senha: senhaEncriptada,
+      },
+      'id email perfil',
+    );
 
     let idCandidatoRecrutador = '';
-    if(usuario.perfil === RolesApi.Candidato) {
-      idCandidatoRecrutador = 
-        (await this.candidatoRepository.model
-          .findOne({ 
-            usuario: usuario._id 
-          }, '_id')
-          .exec()
+    if (usuario.perfil === RolesApi.Candidato) {
+      idCandidatoRecrutador = (
+        await this.candidatoRepository.buscar(
+          {
+            usuarioId: usuario.id,
+          },
+          'id',
         )
-        ._id;
-    }
-    else {
-      idCandidatoRecrutador = 
-        (await this.recrutadorRepository.model
-          .findOne({ 
-            usuario: usuario._id 
-          }, '_id')
-          .exec()
+      ).id;
+    } else {
+      idCandidatoRecrutador = (
+        await this.recrutadorRepository.buscar(
+          {
+            usuarioId: usuario.id,
+          },
+          'id',
         )
-        ._id;
+      ).id;
     }
 
     if (usuario === null) {
@@ -62,7 +62,7 @@ export class AutenticacaoAppService extends AppService<AutenticacaoDataResponse>
     }
 
     return this.returnData({
-      idUsuario: usuario._id,
+      idUsuario: usuario.id,
       idCandidatoRecrutador: idCandidatoRecrutador,
       email: usuario.email,
       permissoes: [usuario.perfil],

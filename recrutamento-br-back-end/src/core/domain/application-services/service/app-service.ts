@@ -1,6 +1,6 @@
 import { RequestService } from '../request/request-service';
 import { ResponseServiceModel } from '../response/response-service';
-import { Notification } from 'src/core/notifications/notification';
+import { Notification } from '../../../../core/notifications/notification';
 
 export abstract class AppService<TDataResponse> {
   abstract handleAsync(

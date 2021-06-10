@@ -1,11 +1,11 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AutenticacaoAppService } from 'src/domain/conta-usuario/application-services/usuario/autenticacao/autenticacao.app-service';
-import { AutenticacaoRequest } from 'src/domain/conta-usuario/application-services/usuario/autenticacao/autenticacao.request';
-import { CadastroUsuarioCandidatoAppService } from 'src/domain/conta-usuario/application-services/usuario/cadastro-usuario-candidato/cadastro-usuario-candidato.app-service';
-import { CadastroUsuarioCandidatoRequest } from 'src/domain/conta-usuario/application-services/usuario/cadastro-usuario-candidato/cadastro-usuario-candidato.request';
-import { CadastroUsuarioRecrutadorAppService } from 'src/domain/conta-usuario/application-services/usuario/cadastro-usuario-recrutador/cadastro-usuario-recrutador.app-service';
-import { CadastroUsuarioRecrutadorRequest } from 'src/domain/conta-usuario/application-services/usuario/cadastro-usuario-recrutador/cadastro-usuario-recrutador.request';
+import { AutenticacaoAppService } from '../../domain/conta-usuario/application-services/usuario/autenticacao/autenticacao.app-service';
+import { AutenticacaoRequest } from '../../domain/conta-usuario/application-services/usuario/autenticacao/autenticacao.request';
+import { CadastroUsuarioCandidatoAppService } from '../../domain/conta-usuario/application-services/usuario/cadastro-usuario-candidato/cadastro-usuario-candidato.app-service';
+import { CadastroUsuarioCandidatoRequest } from '../../domain/conta-usuario/application-services/usuario/cadastro-usuario-candidato/cadastro-usuario-candidato.request';
+import { CadastroUsuarioRecrutadorAppService } from '../../domain/conta-usuario/application-services/usuario/cadastro-usuario-recrutador/cadastro-usuario-recrutador.app-service';
+import { CadastroUsuarioRecrutadorRequest } from '../../domain/conta-usuario/application-services/usuario/cadastro-usuario-recrutador/cadastro-usuario-recrutador.request';
 import { AllowAnonymous } from '../configurations/security-routes/roles.decorator';
 import { TokenService } from '../configurations/security-routes/token.service';
 import { AutenticarRequestApi } from '../models/request-api/conta-usuario/autenticar/autenticar.request-api';

@@ -1,6 +1,10 @@
 import { Schema } from 'mongoose';
-import { schemaOptions } from 'src/data/data-source/mongoose/schema-options';
-import { Entities } from '../../entities';
+import { Recrutador } from '../../../../../domain/conta-usuario/entities/recrutador';
+import { schemaOptions } from '../../../../../data/data-source/mongoose/schema-options';
+import { Entities } from '../../../../../core/data/entities';
+import { EntityToDocument } from '../../entity-to-document';
+
+export type RecrutadorDocument = EntityToDocument<Recrutador>
 
 export const recrutadorSchema = new Schema({
     nome: {
@@ -9,6 +13,10 @@ export const recrutadorSchema = new Schema({
     },
     ativo: {
         type: Boolean,
+        trim: true,
+    },
+    usuarioId: {
+        type: String,
         trim: true,
     },
     usuario: {

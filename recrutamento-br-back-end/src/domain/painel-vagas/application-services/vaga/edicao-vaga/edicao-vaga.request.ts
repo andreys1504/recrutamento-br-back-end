@@ -1,6 +1,6 @@
-import { RequestService } from 'src/core/domain/application-services/request/request-service';
-import { DomainException } from 'src/core/domain/exceptions/domain.exception';
-import { Flunt } from 'src/core/validations/flunt';
+import { RequestService } from '../../../../../core/domain/application-services/request/request-service';
+import { DomainException } from '../../../../../core/domain/exceptions/domain.exception';
+import { Flunt } from '../../../../../core/validations/flunt';
 
 export class EdicaoVagaRequest extends RequestService {
   constructor(

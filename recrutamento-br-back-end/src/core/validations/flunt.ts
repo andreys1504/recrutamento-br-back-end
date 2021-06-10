@@ -7,33 +7,39 @@ export class Flunt {
     return this.notifications.length === 0;
   }
 
-  isRequired(value, key, message) {
-    if (!value || value.length <= 0) {
-      this.notifications.push(new Notification(key, message));
-    }
-  }
-
   hasMinLen = (value, min, key, message) => {
-    if (!value || value.length < min) {
+    if (this.isNullOrUndefinedOrEmpty(value)) {
+      return;
+    }
+
+    if (value.length < min) {
       this.notifications.push(new Notification(key, message));
     }
   };
 
   hasMaxLen = (value, max, key, message) => {
-    if (!value || value.length > max) {
+    if (this.isNullOrUndefinedOrEmpty(value)) {
+      return;
+    }
+
+    if (value.length > max) {
       this.notifications.push(new Notification(key, message));
     }
   };
 
   isFixedLen = (value, len, key, message) => {
+    if(this.isNullOrUndefinedOrEmpty(value)) {
+      return;
+    }
+    
     if (value.length !== len) {
       this.notifications.push(new Notification(key, message));
     }
   };
 
   isEmail = (value, key, message) => {
-    if (this.isNullOrUndefined(value)) { 
-        return;
+    if (this.isNullOrUndefinedOrEmpty(value)) {
+      return;
     }
 
     const reg = new RegExp(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
@@ -49,9 +55,9 @@ export class Flunt {
   };
 
   isNotNullOrEmpty = (value: string, key, message) => {
-    if(this.isNullOrUndefined(value)) {
-        this.notifications.push(new Notification(key, message));
-        return;
+    if (this.isNullOrUndefined(value)) {
+      this.notifications.push(new Notification(key, message));
+      return;
     }
 
     value = value.trim();
@@ -61,6 +67,10 @@ export class Flunt {
   };
 
   isGreaterThan = (valuea, valueb, key, message) => {
+    if (this.isNullOrUndefinedOrEmpty(valuea) || this.isNullOrUndefinedOrEmpty(valueb)) {
+      return;
+    }
+
     if (valuea > valueb) {
       this.notifications.push(new Notification(key, message));
     }
@@ -71,8 +81,16 @@ export class Flunt {
   }
 
   private isNullOrUndefined(value: any) {
-    if (value === null || value === undefined) { 
-        return true;
+    if (value === null || value === undefined) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private isNullOrUndefinedOrEmpty(value: any) {
+    if (value === null || value === undefined || (typeof value === "string" && value.trim() === '')) {
+      return true;
     }
 
     return false;

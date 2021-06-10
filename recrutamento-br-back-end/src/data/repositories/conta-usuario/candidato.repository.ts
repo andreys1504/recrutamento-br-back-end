@@ -1,16 +1,27 @@
 import { Injectable } from "@nestjs/common";
-import { Model, model } from "mongoose";
-import { Entities } from "src/data/data-source/mongoose/entities";
-import { EntityToDocument } from "src/data/data-source/mongoose/entity-to-document";
-import { candidatoSchema } from "src/data/data-source/mongoose/schemas/conta-usuario/candidato.schema";
-import { Candidato } from "src/domain/conta-usuario/entities/candidato";
-
-interface Candidato_Document extends EntityToDocument<Candidato> {
-}
+import { model } from "mongoose";
+import { Entities } from "../../../core/data/entities";
+import { CandidatoDocument, candidatoSchema } from "../../../data/data-source/mongoose/schemas/conta-usuario/candidato.schema";
+import { Candidato } from "../../../domain/conta-usuario/entities/candidato";
+import { Repository } from "../repository";
 
 @Injectable()
-export class CandidatoRepository {
-    get model(): Model<Candidato_Document> {
-        return model<Candidato_Document>(Entities.Candidato, candidatoSchema);
+export class CandidatoRepository extends Repository<CandidatoDocument, Candidato> {
+    constructor() {
+        const candidatoModel = model<CandidatoDocument>(Entities.Candidato, candidatoSchema);
+        super(candidatoModel);
+    }
+
+    async cadastrar(candidato: {
+        nome: string,
+        ativo: boolean,
+        idUsuario: string,
+    }): Promise<Candidato> {
+        return await this.create({
+            nome: candidato.nome,
+            ativo: candidato.ativo,
+            usuarioId: candidato.idUsuario,
+            usuario: candidato.idUsuario
+        });
     }
 }

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { RolesApi } from 'src/core/authorizations/roles-api';
-import { AppService } from 'src/core/domain/application-services/service/app-service';
-import { ResponseServiceModel } from 'src/core/domain/application-services/response/response-service';
-import { DomainException } from 'src/core/domain/exceptions/domain.exception';
-import { CryptographyHelpers } from 'src/core/helpers/cryptography.helpers';
+import { RolesApi } from '../../../../../core/authorizations/roles-api';
+import { AppService } from '../../../../../core/domain/application-services/service/app-service';
+import { ResponseServiceModel } from '../../../../../core/domain/application-services/response/response-service';
+import { DomainException } from '../../../../../core/domain/exceptions/domain.exception';
+import { CryptographyHelpers } from '../../../../../core/helpers/cryptography.helpers';
 import { CadastroUsuarioCandidatoRequest } from './cadastro-usuario-candidato.request';
-import { CandidatoRepository } from 'src/data/repositories/conta-usuario/candidato.repository';
-import { UsuarioRepository } from 'src/data/repositories/conta-usuario/usuario.repository';
+import { CandidatoRepository } from '../../../../../data/repositories/conta-usuario/candidato.repository';
+import { UsuarioRepository } from '../../../../../data/repositories/conta-usuario/usuario.repository';
 
 @Injectable()
 export class CadastroUsuarioCandidatoAppService extends AppService<boolean> {
@@ -24,9 +24,9 @@ export class CadastroUsuarioCandidatoAppService extends AppService<boolean> {
       return this.returnNotifications(request.notifications);
     }
 
-    const usuarioPorEmail = await this.usuarioRepository.model.findOne({
+    const usuarioPorEmail = await this.usuarioRepository.buscar({
       email: request.email,
-    }).exec();
+    });
 
     if (usuarioPorEmail) {
       return this.returnNotification('email', 'Usuário existente no sistema');
@@ -36,24 +36,22 @@ export class CadastroUsuarioCandidatoAppService extends AppService<boolean> {
     let idCandidato: string;
 
     try {
-      const usuarioModel = new this.usuarioRepository.model({
+      const usuario = await this.usuarioRepository.cadastrar({
         email: request.email,
         senha: CryptographyHelpers.encryptPassword(request.senha),
         perfil: RolesApi.Candidato,
       });
-      await usuarioModel.save();
-      idUsuario = usuarioModel._id;
+      idUsuario = usuario.id;
 
-      const candidatoModel = new this.candidatoRepository.model({
+      const candidato = await this.candidatoRepository.cadastrar({
         nome: request.nome,
         ativo: true,
-        usuario: usuarioModel.toObject(),
+        idUsuario: idUsuario,
       });
-      await candidatoModel.save();
-      idCandidato = candidatoModel._id;
+      idCandidato = candidato.id;
     } catch(error) {
-      await this.usuarioRepository.model.deleteOne({ _id: idUsuario }).exec();
-      await this.candidatoRepository.model.deleteOne({ _id: idCandidato }).exec();
+      await this.usuarioRepository.delete({ id: idUsuario });
+      await this.candidatoRepository.delete({ id: idCandidato });
 
       throw new DomainException('Erro no cadastro do usuário');
     }

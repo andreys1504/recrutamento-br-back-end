@@ -1,4 +1,4 @@
-import { IAggregateRoot } from 'src/core/domain/entities/aggregate-root';
+import { IAggregateRoot } from '../../../core/domain/entities/aggregate-root';
 
 export interface Usuario extends IAggregateRoot {
   email: string;

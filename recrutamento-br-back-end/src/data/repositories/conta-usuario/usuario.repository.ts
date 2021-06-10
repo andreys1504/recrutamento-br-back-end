@@ -1,16 +1,33 @@
-import { Model, model } from "mongoose";
-import { Entities } from "src/data/data-source/mongoose/entities";
-import { EntityToDocument } from "src/data/data-source/mongoose/entity-to-document";
-import { Usuario } from "src/domain/conta-usuario/entities/usuario";
-import { usuarioSchema } from "src/data/data-source/mongoose/schemas/conta-usuario/usuario.schema";
-import { Injectable } from "@nestjs/common";
-
-interface Usuario_Document extends EntityToDocument<Usuario> {
-}
+import { model } from 'mongoose';
+import { Entities } from '../../../core/data/entities';
+import { Usuario } from '../../../domain/conta-usuario/entities/usuario';
+import {
+  UsuarioDocument,
+  usuarioSchema,
+} from '../../../data/data-source/mongoose/schemas/conta-usuario/usuario.schema';
+import { Injectable } from '@nestjs/common';
+import { Repository } from '../repository';
+import { RolesApi } from '../../../core/authorizations/roles-api';
 
 @Injectable()
-export class UsuarioRepository {
-    get model(): Model<Usuario_Document> {
-        return model<Usuario_Document>(Entities.Usuario, usuarioSchema);;
-    }
+export class UsuarioRepository extends Repository<UsuarioDocument, Usuario> {
+  constructor() {
+    const usuarioModel = model<UsuarioDocument>(
+      Entities.Usuario,
+      usuarioSchema,
+    );
+    super(usuarioModel);
+  }
+
+  async cadastrar(usuario: {
+    email: string;
+    senha: string;
+    perfil: RolesApi;
+  }): Promise<Usuario> {
+    return await this.create({
+      email: usuario.email,
+      senha: usuario.senha,
+      perfil: usuario.perfil.toString(),
+    });
+  }
 }

@@ -11,4 +11,4 @@
 # Tests
 **/coverage/
 **/.nyc_output
-
+RepositoryFake.js

@@ -1,13 +1,10 @@
-import { AppService } from 'src/core/domain/application-services/service/app-service';
-import { ResponseServiceModel } from 'src/core/domain/application-services/response/response-service';
+import { AppService } from '../../../../../core/domain/application-services/service/app-service';
+import { ResponseServiceModel } from '../../../../../core/domain/application-services/response/response-service';
 import { EdicaoVagaDataResponse } from './edicao-vaga.data-response';
 import { EdicaoVagaRequest } from './edicao-vaga.request';
-import { VagaRepository } from 'src/data/repositories/painel-vagas/vaga-repository';
+import { VagaRepository } from '../../../../../data/repositories/painel-vagas/vaga-repository';
 import { Injectable } from '@nestjs/common';
-import { ObjectId } from 'mongodb';
-import { Scheduler } from 'rxjs';
-import { Schema } from 'mongoose';
-import { Entities } from 'src/data/data-source/mongoose/entities';
+import { Vaga } from '../../../../../domain/painel-vagas/entities/vaga';
 
 @Injectable()
 export class EdicaoVagaAppService extends AppService<EdicaoVagaDataResponse> {
@@ -22,21 +19,14 @@ export class EdicaoVagaAppService extends AppService<EdicaoVagaDataResponse> {
       return this.returnNotifications(request.notifications);
     }
 
-    const vagaPorTitulo = await this.vagaRepository.model
-      .findOne(
-        {
-          titulo: request.titulo,
-          _id: { $ne: request.idVaga },
-        },
-        'titulo',
-      )
-      .populate({
-        path: Entities.Recrutador,
-        select: '_id',
-        match: { _id: request.idRecrutador },
-        model: Entities.Vaga,
-      })
-      .exec();
+    const vagaPorTitulo = await this.vagaRepository.buscar(
+      {
+        titulo: request.titulo,
+        id: { $ne: request.idVaga },
+        recrutadorId: request.idRecrutador,
+      } as Vaga,
+      'titulo',
+    );
 
     if (vagaPorTitulo) {
       return this.returnNotification(
@@ -45,30 +35,22 @@ export class EdicaoVagaAppService extends AppService<EdicaoVagaDataResponse> {
       );
     }
 
-    await this.vagaRepository.model
-      .findByIdAndUpdate(request.idVaga, {
+    const vaga = await this.vagaRepository.atualizar(
+      request.idVaga,
+      request.idRecrutador,
+      {
         titulo: request.titulo,
         descricao: request.descricao,
         tags: request.tags,
-      })
-      .populate({
-        path: Entities.Recrutador,
-        select: '_id',
-        match: { _id: request.idRecrutador },
-        model: Entities.Vaga,
-      })
-      .exec();
-
-    const vagaAtualizada = await this.vagaRepository.model
-      .findById(request.idVaga)
-      .exec();
+      },
+    );
 
     return this.returnData({
-      id: vagaAtualizada.id,
-      titulo: vagaAtualizada.titulo,
-      descricao: vagaAtualizada.descricao,
-      tags: vagaAtualizada.tags,
-      idRecrutador: vagaAtualizada.recrutador.toString(),
+      id: vaga.id,
+      titulo: vaga.titulo,
+      descricao: vaga.descricao,
+      tags: vaga.tags,
+      idRecrutador: vaga.recrutadorId,
     });
   }
 }

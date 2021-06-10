@@ -1,10 +1,10 @@
-import { AppService } from 'src/core/domain/application-services/service/app-service';
-import { ResponseServiceModel } from 'src/core/domain/application-services/response/response-service';
+import { AppService } from '../../../../../core/domain/application-services/service/app-service';
+import { ResponseServiceModel } from '../../../../../core/domain/application-services/response/response-service';
 import { CadastroVagaDataResponse } from './cadastro-vaga.data-response';
 import { CadastroVagaRequest } from './cadastro-vaga.request';
-import { VagaRepository } from 'src/data/repositories/painel-vagas/vaga-repository';
+import { VagaRepository } from '../../../../../data/repositories/painel-vagas/vaga-repository';
 import { Injectable } from '@nestjs/common';
-import { Entities } from 'src/data/data-source/mongoose/entities';
+import { Vaga } from '../../../../../domain/painel-vagas/entities/vaga';
 
 @Injectable()
 export class CadastroVagaAppService extends AppService<CadastroVagaDataResponse> {
@@ -18,40 +18,32 @@ export class CadastroVagaAppService extends AppService<CadastroVagaDataResponse>
     if (request.validate() === false) {
       return this.returnNotifications(request.notifications);
     }
-
-    const vagaPorTitulo = await this.vagaRepository.model
-      .findOne(
+    const vagaPorTitulo = await this.vagaRepository
+      .buscar(
         {
-          titulo: request.titulo,
-        },
-        'titulo',
-      )
-      .populate({
-        path: Entities.Recrutador,
-        select: '_id',
-        match: { _id: request.idRecrutador },
-        model: Entities.Vaga,
-      })
-      .exec();
+          titulo: request.requestModel.titulo,
+          recrutadorId: request.requestModel.idRecrutador
+        } as Vaga,
+        'titulo'
+      );
 
     if (vagaPorTitulo) {
       return this.returnNotification('titulo', 'Vaga existente no sistema');
     }
 
-    const vagaModel = new this.vagaRepository.model({
-      titulo: request.titulo,
-      descricao: request.descricao,
-      tags: request.tags,
-      recrutador: request.idRecrutador,
+    const vaga = await this.vagaRepository.cadastrar({
+      titulo: request.requestModel.titulo,
+      descricao: request.requestModel.descricao,
+      tags: request.requestModel.tags,
+      idRecrutador: request.requestModel.idRecrutador
     });
-    await vagaModel.save();
 
     return this.returnData({
-      id: vagaModel._id,
-      titulo: vagaModel.titulo,
-      descricao: vagaModel.descricao,
-      tags: vagaModel.tags,
-      idRecrutador: vagaModel.recrutador.toString(),
+      id: vaga.id,
+      titulo: vaga.titulo,
+      descricao: vaga.descricao,
+      tags: vaga.tags,
+      idRecrutador: vaga.recrutador.toString(),
     });
   }
 }

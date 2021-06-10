@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DataModule } from 'src/data/data.module';
+import { DataModule } from '../data/data.module';
 import { AutenticacaoAppService } from './conta-usuario/application-services/usuario/autenticacao/autenticacao.app-service';
 import { CadastroUsuarioCandidatoAppService } from './conta-usuario/application-services/usuario/cadastro-usuario-candidato/cadastro-usuario-candidato.app-service';
 import { CadastroUsuarioRecrutadorAppService } from './conta-usuario/application-services/usuario/cadastro-usuario-recrutador/cadastro-usuario-recrutador.app-service';

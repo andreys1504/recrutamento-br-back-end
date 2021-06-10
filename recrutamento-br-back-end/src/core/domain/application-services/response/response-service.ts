@@ -1,4 +1,4 @@
-import { Notification } from 'src/core/notifications/notification';
+import { Notification } from '../../../notifications/notification';
 
 export class ResponseServiceModel<TData> {
   constructor(

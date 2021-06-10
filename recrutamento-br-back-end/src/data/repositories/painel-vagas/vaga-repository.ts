@@ -1,25 +1,51 @@
-import { Injectable } from "@nestjs/common";
-import { model, Model } from "mongoose";
-import { Entities } from "src/data/data-source/mongoose/entities";
-import { EntityToDocument } from "src/data/data-source/mongoose/entity-to-document";
-import { vagaSchema } from "src/data/data-source/mongoose/schemas/painel-vagas/vaga.schema";
-import { Vaga } from "src/domain/painel-vagas/entities/vaga";
-import { candidaturaVagaSchema } from "src/data/data-source/mongoose/schemas/painel-vagas/candidatura-vaga.schema";
-import { CandidaturaVaga } from "src/domain/painel-vagas/entities/candidatura-vaga";
-
-interface Vaga_Document extends EntityToDocument<Vaga> {
-}
-
-interface CandidaturaVaga_Document extends EntityToDocument<CandidaturaVaga> {
-}
+import { Injectable } from '@nestjs/common';
+import { model } from 'mongoose';
+import { Entities } from '../../../core/data/entities';
+import {
+  VagaDocument,
+  vagaSchema,
+} from '../../../data/data-source/mongoose/schemas/painel-vagas/vaga.schema';
+import { Vaga } from '../../../domain/painel-vagas/entities/vaga';
+import { Repository } from '../repository';
 
 @Injectable()
-export class VagaRepository {
-    get model(): Model<Vaga_Document> {
-        return model<Vaga_Document>(Entities.Vaga, vagaSchema);
-    }
+export class VagaRepository extends Repository<VagaDocument, Vaga> {
+  constructor() {
+    const vagaModel = model<VagaDocument>(Entities.Vaga, vagaSchema);
+    super(vagaModel);
+  }
 
-    get modelCandidaturaVaga(): Model<CandidaturaVaga_Document> {
-        return model<CandidaturaVaga_Document>(Entities.CandidaturaVaga, candidaturaVagaSchema);
-    }
+  async cadastrar(vaga: {
+    titulo: string;
+    descricao: string;
+    tags: string[];
+    idRecrutador: string;
+  }): Promise<Vaga> {
+    return await this.create({
+      titulo: vaga.titulo,
+      descricao: vaga.descricao,
+      tags: vaga.tags,
+      recrutadorId: vaga.idRecrutador,
+      recrutador: vaga.idRecrutador,
+    });
+  }
+
+  async atualizar(
+    idVaga: string,
+    idRecrutador: string,
+    dados: {
+      titulo: string;
+      descricao: string;
+      tags: string[];
+    },
+  ): Promise<Vaga> {
+    return await this.findOneAndUpdate(
+      { id: idVaga, recrutadorId: idRecrutador },
+      {
+        titulo: dados.titulo,
+        descricao: dados.descricao,
+        tags: dados.tags,
+      },
+    );
+  }
 }

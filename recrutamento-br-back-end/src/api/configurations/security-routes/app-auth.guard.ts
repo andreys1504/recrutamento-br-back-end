@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesApi } from 'src/core/authorizations/roles-api';
+import { RolesApi } from '../../../core/authorizations/roles-api';
 import { ALLOW_ANONYMOUS_KEY, ROLES_KEY } from './roles.decorator';
 import { TokenPayload } from './token.payload';
 

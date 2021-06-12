@@ -1,7 +1,7 @@
-import { RequestService } from '../../../../../core/domain/application-services/request/request-service';
+import { RequestAppService } from '../../../../../core/domain/application-services/request/request-app-service';
 import { Flunt } from '../../../../../core/validations/flunt';
 
-export class CadastroUsuarioCandidatoRequest extends RequestService {
+export class CadastroUsuarioCandidatoRequest extends RequestAppService {
   constructor(public email: string, public senha: string, public nome: string) {
     super();
   }

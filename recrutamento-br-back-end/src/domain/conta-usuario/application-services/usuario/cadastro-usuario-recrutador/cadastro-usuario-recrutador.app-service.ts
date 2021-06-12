@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RolesApi } from '../../../../../core/authorizations/roles-api';
 import { AppService } from '../../../../../core/domain/application-services/service/app-service';
-import { ResponseServiceModel } from '../../../../../core/domain/application-services/response/response-service';
+import { ResponseAppService } from '../../../../../core/domain/application-services/response/response-app-service';
 import { DomainException } from '../../../../../core/domain/exceptions/domain.exception';
 import { CryptographyHelpers } from '../../../../../core/helpers/cryptography.helpers';
 import { CadastroUsuarioRecrutadorRequest } from './cadastro-usuario-recrutador.request';
@@ -19,9 +19,9 @@ export class CadastroUsuarioRecrutadorAppService extends AppService<boolean> {
   
   async handleAsync(
     request: CadastroUsuarioRecrutadorRequest,
-  ): Promise<ResponseServiceModel<boolean>> {
+  ): Promise<ResponseAppService<boolean>> {
     if (request.validate() === false) {
-      return this.returnNotifications(request.notifications);
+      return this.returnNotifications(request.getNotifications);
     }
 
     const usuarioPorEmail = await this.usuarioRepository.buscar({

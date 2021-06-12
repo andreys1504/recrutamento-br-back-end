@@ -1,5 +1,5 @@
 import { AppService } from '../../../../../core/domain/application-services/service/app-service';
-import { ResponseServiceModel } from '../../../../../core/domain/application-services/response/response-service';
+import { ResponseAppService } from '../../../../../core/domain/application-services/response/response-app-service';
 import { EdicaoVagaDataResponse } from './edicao-vaga.data-response';
 import { EdicaoVagaRequest } from './edicao-vaga.request';
 import { VagaRepository } from '../../../../../data/repositories/painel-vagas/vaga-repository';
@@ -14,9 +14,9 @@ export class EdicaoVagaAppService extends AppService<EdicaoVagaDataResponse> {
 
   async handleAsync(
     request: EdicaoVagaRequest,
-  ): Promise<ResponseServiceModel<EdicaoVagaDataResponse>> {
+  ): Promise<ResponseAppService<EdicaoVagaDataResponse>> {
     if (request.validate() === false) {
-      return this.returnNotifications(request.notifications);
+      return this.returnNotifications(request.getNotifications);
     }
 
     const vagaPorTitulo = await this.vagaRepository.buscar(

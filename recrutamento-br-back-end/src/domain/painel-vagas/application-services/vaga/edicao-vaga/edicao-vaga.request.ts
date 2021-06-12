@@ -1,8 +1,8 @@
-import { RequestService } from '../../../../../core/domain/application-services/request/request-service';
+import { RequestAppService } from '../../../../../core/domain/application-services/request/request-app-service';
 import { DomainException } from '../../../../../core/domain/exceptions/domain.exception';
 import { Flunt } from '../../../../../core/validations/flunt';
 
-export class EdicaoVagaRequest extends RequestService {
+export class EdicaoVagaRequest extends RequestAppService {
   constructor(
     public idVaga: string,
     public titulo: string,

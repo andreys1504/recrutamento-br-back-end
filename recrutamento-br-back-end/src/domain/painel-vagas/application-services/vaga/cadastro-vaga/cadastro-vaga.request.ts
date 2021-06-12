@@ -1,8 +1,8 @@
-import { RequestService } from '../../../../../core/domain/application-services/request/request-service';
+import { RequestAppService } from '../../../../../core/domain/application-services/request/request-app-service';
 import { DomainException } from '../../../../../core/domain/exceptions/domain.exception';
 import { Flunt } from '../../../../../core/validations/flunt';
 
-export class CadastroVagaRequest extends RequestService {
+export class CadastroVagaRequest extends RequestAppService {
   constructor(public requestModel: {
     titulo: string,
     descricao: string,

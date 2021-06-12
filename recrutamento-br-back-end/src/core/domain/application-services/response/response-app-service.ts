@@ -1,6 +1,6 @@
 import { Notification } from '../../../notifications/notification';
 
-export class ResponseServiceModel<TData> {
+export class ResponseAppService<TData> {
   constructor(
     public success: boolean,
     public data: TData,

@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { TokenPayload } from '../../api/configurations/security-routes/token.payload';
 import { RolesApi } from '../../core/authorizations/roles-api';
-import { ResponseServiceModel } from '../../core/domain/application-services/response/response-service';
+import { ResponseAppService } from '../../core/domain/application-services/response/response-app-service';
 import { CadastroVagaDataResponse } from '../../domain/painel-vagas/application-services/vaga/cadastro-vaga/cadastro-vaga.data-response';
 import { VagaController } from '../../api/controllers/vaga.controller';
 import { CadastroVagaAppService } from '../../domain/painel-vagas/application-services/vaga/cadastro-vaga/cadastro-vaga.app-service';
@@ -52,7 +52,7 @@ describe('VagaController', () => {
                 message: 'informe o Título'
             }
         ]
-      } as ResponseServiceModel<CadastroVagaDataResponse>;
+      } as ResponseAppService<CadastroVagaDataResponse>;
       cadastroVagaAppServiceFake.handleAsync.mockResolvedValue(responseAppService);
 
       const body = {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RolesApi } from '../../../../../core/authorizations/roles-api';
 import { AppService } from '../../../../../core/domain/application-services/service/app-service';
-import { ResponseServiceModel } from '../../../../../core/domain/application-services/response/response-service';
+import { ResponseAppService } from '../../../../../core/domain/application-services/response/response-app-service';
 import { CryptographyHelpers } from '../../../../../core/helpers/cryptography.helpers';
 import { AutenticacaoDataResponse } from './autenticacao.data-response';
 import { AutenticacaoRequest } from './autenticacao.request';
@@ -21,9 +21,9 @@ export class AutenticacaoAppService extends AppService<AutenticacaoDataResponse>
 
   async handleAsync(
     request: AutenticacaoRequest,
-  ): Promise<ResponseServiceModel<AutenticacaoDataResponse>> {
+  ): Promise<ResponseAppService<AutenticacaoDataResponse>> {
     if (request.validate() === false) {
-      return this.returnNotifications(request.notifications);
+      return this.returnNotifications(request.getNotifications);
     }
 
     const senhaEncriptada = CryptographyHelpers.encryptPassword(request.senha);

@@ -7,22 +7,22 @@ export abstract class AppService<TDataResponse> {
     request: RequestAppService,
   ): Promise<ResponseAppService<TDataResponse>>;
 
-  returnNotification(key: string, message: string) {
+  protected returnNotification(key: string, message: string) {
     const notifications = new Array<Notification>();
     notifications.push(new Notification(key, message));
 
     return new ResponseAppService(false, null, notifications);
   }
 
-  returnNotifications(notifications: Notification[]) {
+  protected returnNotifications(notifications: Notification[]) {
     return new ResponseAppService(false, null, notifications);
   }
 
-  returnData(data: TDataResponse) {
+  protected returnData(data: TDataResponse) {
     return new ResponseAppService(true, data, null);
   }
 
-  returnSuccess() {
+  protected returnSuccess() {
     return new ResponseAppService(true, null, null);
   }
 }
